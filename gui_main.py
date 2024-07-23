@@ -5,14 +5,17 @@ import tkinter as ttk
 
 app = ttk.Tk()
 
-canvas_widget = Canvas(app, width=250, height=250)
-canvas_widget.grid(row=0, column=0, padx=10, pady=10)
-  
-label_widget1 = Label(app, text="Enter rock, paper, or scissors")
-label_widget1.grid(row=1, column=0, pady=10)
+app.geometry("300x300")  # Set a fixed size for the window
 
-entry_widget1 = Entry(app, width=20)
-entry_widget1.grid(row=2, column=0, pady=10)
+# Create a frame to hold the label and entry widgets
+frame = Frame(app)
+frame.pack(expand=True)
+
+label_widget1 = Label(frame, text="Enter rock, paper, or scissors")
+entry_widget1 = Entry(frame, width=20)
+
+label_widget1.pack(pady=10)
+entry_widget1.pack(pady=10)
 
 def get_player_choice():
     user_choice = entry_widget1.get().strip().lower() 
@@ -44,6 +47,6 @@ def det_winner():
         entry_widget1.delete(0, END)
 
 button_widget = Button(app, text='Submit', command=det_winner)
-button_widget.grid(row=3, column=0, pady=10)
+button_widget.pack(pady=10)
 
 app.mainloop()
