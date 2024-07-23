@@ -3,60 +3,47 @@ from tkinter import *
 from tkinter import messagebox 
 import tkinter as ttk
 
-# fix submit button and make code compare user input to computer choice
+app = ttk.Tk()
 
-root = ttk.Tk()
-root.geometry("600x400")
+canvas_widget = Canvas(app, width=250, height=250)
+canvas_widget.grid(row=0, column=0, padx=10, pady=10)
+  
+label_widget1 = Label(app, text="Enter rock, paper, or scissors")
+label_widget1.grid(row=1, column=0, pady=10)
 
-choice_var = ttk.StringVar()
-
-def submit():
- 
-    player_choice_result = choice_var.get()
-     
-    print("Rock, Paper, or Scissors?: " + player_choice_result)
-    if player_choice_result in ['rock', 'paper', 'scissors']:
-        return player_choice_result
-    else:
-        print("Please try again\n")
-     
-    choice_var.set("")
+entry_widget1 = Entry(app, width=20)
+entry_widget1.grid(row=2, column=0, pady=10)
 
 def get_player_choice():
-    while True:
-        choice = input("Enter your option: ").lower()
-        if choice in ['rock', 'paper', 'scissors']:
-            return choice
-        else:
-            print("Please try again\n")
+    user_choice = entry_widget1.get().strip().lower() 
+
+    if user_choice in ['rock', 'paper', 'scissors']:
+        return user_choice
+    else:
+        messagebox.showinfo("Please try again") 
 
 def computer_choice():
     options = ['rock', 'paper', 'scissors']
     return random.choice(options)
 
-computer_choice_result = computer_choice()
-player_choice_result = submit()
+def det_winner():
+    player_choice_result = get_player_choice()
 
-def det_winner(player_choice_result, computer_choice_result):
-    if (player_choice_result == 'rock' and computer_choice_result == 'scissors') or \
-        (player_choice_result == 'scissors' and computer_choice_result == 'paper') or \
-        (player_choice_result == 'paper' and computer_choice_result == 'rock'):
-        print (player_choice_result, "beats", computer_choice_result, "you win!" )
-    elif player_choice_result == computer_choice_result:
-        print("we both chose", player_choice_result, "its a tie!")
-    else:
-        print(computer_choice_result, "beats", player_choice_result, "I win!")
+    if player_choice_result:
+        computer_choice_result = computer_choice()
+        
+        if (player_choice_result == 'rock' and computer_choice_result == 'scissors') or \
+            (player_choice_result == 'scissors' and computer_choice_result == 'paper') or \
+            (player_choice_result == 'paper' and computer_choice_result == 'rock'):
+            messagebox.showinfo("Result", f"{player_choice_result} beats {computer_choice_result} you win!")
+        elif player_choice_result == computer_choice_result:
+            messagebox.showinfo("Result", f"we both chose {player_choice_result} its a tie!")
+        else:
+            messagebox.showinfo("Result", f"{computer_choice_result} beats {player_choice_result} I win!")
 
-def result():
-    #det_winner(player_choice_result, computer_choice_result)
-    messagebox.showinfo(det_winner(player_choice_result, computer_choice_result)) 
-   
+        entry_widget1.delete(0, END)
 
-name_label = ttk.Label(root, text = 'Choice', font=('calibre',10, 'bold'))
-name_entry = ttk.Entry(root,textvariable = choice_var, font=('calibre',10,'normal'))
-sub_btn = ttk.Button(root,text = 'Submit', command = submit)
+button_widget = Button(app, text='Submit', command=det_winner)
+button_widget.grid(row=3, column=0, pady=10)
 
-name_label.grid(row=0,column=0)
-name_entry.grid(row=0,column=1)
-sub_btn.grid(row=2,column=1)
-root.mainloop()
+app.mainloop()
