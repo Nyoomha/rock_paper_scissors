@@ -1,2 +1,2 @@
 # rock_paper_scissors
-Rock, paper, scissors game.
+Rock, paper, scissors game using Tkinter
